@@ -70,7 +70,11 @@ int cli_Print (sCliente* list){
 	int retorno=ERROR_PARAM;
 	if(list!=NULL&&list->isEmpty==OCUPADO){
 		retorno = OK;
-		printf("\nID: %d -- NOMBRE: %s APELLIDO: %s CUIT: %s\n",list->idCliente,list->nombre,list->apellido, list->cuit);
+		if(list->cantDeCompras>0){
+			printf("\nID: %d -- NOMBRE: %s / APELLIDO: %s / CUIT: %s / CANTIDAD DE COMPRAS: %d\n",list->idCliente,list->nombre,list->apellido, list->cuit,list->cantDeCompras);
+		}else {
+			printf("\nID: %d -- NOMBRE: %s / APELLIDO: %s / CUIT: %s\n",list->idCliente,list->nombre,list->apellido, list->cuit);
+		}
 	}
     return retorno;
 }
@@ -222,103 +226,3 @@ int cli_ShowMenuModificar(int*opcion,sCliente*structBuffer,sCliente*list,int len
 	return retorno;
 }
 
-int cli_ordenarPorSTRINGCHAR(sCliente* list, int len){
-	int flagSwap;
-	int retorno=ERROR_PARAM;
-    sCliente auxiliarEntidad;
-    int i=0;
-    if(list!=NULL&&len>0){
-    	retorno=OK;
-		do{
-			flagSwap=FALSE;
-			for(;i<len-1;i++){
-				if(list[i].isEmpty==VACIO||list[i+1].isEmpty==VACIO){
-					continue;
-				}
-				if(strncmp(list[i].nombre,list[i+1].nombre,MAX_LEN)>0){
-					flagSwap=TRUE;
-					auxiliarEntidad=list[i];
-					list[i]=list[i+1];
-					list[i+1]=auxiliarEntidad;
-				}
-			}
-			len--;
-		}while(flagSwap);
-    }
-    return retorno;
-}
-
-int cli_ordenarPorNUMERICO(sCliente* list, int len){
-	int flagSwap;
-	int retorno=ERROR_PARAM;
-    sCliente auxiliarEntidad;
-    int i=0;
-    if(list!=NULL&&len>0){
-    	retorno=OK;
-		do{
-			flagSwap=FALSE;
-			for(;i<len-1;i++){
-				if(list[i].isEmpty==VACIO||list[i+1].isEmpty==VACIO){
-					continue;
-				}
-				if(list[i].idCliente>list[i+1].idCliente){
-					flagSwap=TRUE;
-					auxiliarEntidad=list[i];
-					list[i]=list[i+1];
-					list[i+1]=auxiliarEntidad;
-				}
-			}
-
-		}while(flagSwap);
-    }
-    return retorno;
-}
-
-int cli_ordenarPorSTRINGCHAR_NUMERICO(sCliente* list, int len){
-	int flagSwap;
-	int retorno=ERROR_PARAM;
-    sCliente auxiliarEntidad;
-    int i=0;
-    int auxiliarCmp;
-    if(list!=NULL&&len>0){
-    	retorno=OK;
-		do{
-			flagSwap=FALSE;
-			for(;i<len-1;i++){
-				if(list[i].isEmpty==VACIO||list[i+1].isEmpty==VACIO){
-					continue;
-				}
-				auxiliarCmp=strncmp(list[i].nombre,list[i+1].nombre,MAX_LEN);
-				if(auxiliarCmp>0
-						|| (auxiliarCmp==0 && list[i].idCliente>list[i+1].idCliente))
-				{
-					flagSwap=TRUE;
-					auxiliarEntidad=list[i];
-					list[i]=list[i+1];
-					list[i+1]=auxiliarEntidad;
-				}
-			}
-			len--;
-		}while(flagSwap);
-    }
-    return retorno;
-}
-
-
-int info_imprimirImportesContrataciones(sCliente* pContrataciones, int limiteContrataciones, sClienteDOS* pPantallas, int limitePantallas, char*auxiliarCuit){
-	int retorno=ERROR_PARAM;
-	int i;
-	int indiceArrayPantallas;
-	int idPantallas;
-	if(pContrataciones!=NULL&&limiteContrataciones>0&&pPantallas!=NULL&&limitePantallas>0&&auxiliarCuit!=NULL){
-		for(i=0;i<limiteContrataciones;i++){
-			if(strncmp(pContrataciones[i].nombre,auxiliarCuit,CUIT_LEN)==0){
-				retorno=OK;
-				idPantallas=pContrataciones[i].idRelation;
-				//buscar por id
-				//meter index y hacer lo demas
-			}
-		}
-	}
-	return retorno;
-}

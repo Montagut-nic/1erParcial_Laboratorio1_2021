@@ -159,37 +159,6 @@ int com_baja(sCompraBarbijo* list,int len,int idCompra){
     return retorno;
 }
 
-
-
-int com_Modificar(sCompraBarbijo* list,int len){
-    int id;
-    int i;
-    int retorno=ERROR_PARAM;
-    int respuesta;
-    int opcion;
-    sCompraBarbijo auxiliarStruct;
-    if(len > 0 && list != NULL)
-    {
-    	retorno=ERROR_DATOS;
-    	respuesta=utn_getInt(&id, "\nIngrese el ID del cliente a modificar: \n", "\nUsted ha ingresado un ID incorrecto.\n", 5, 1, len);
-    	if(respuesta==OK){
-    		i=com_SearchById(list, len, id);
-    		if(i>=0&&list[i].isEmpty==FALSE){
-    			auxiliarStruct=list[i];
-    			retorno=com_ShowMenuModificar(&opcion,&auxiliarStruct);
-    			if(retorno==OK&&opcion==5){
-    				list[i]=auxiliarStruct;
-    			}
-    		}else{
-    			printf("\nNo hay ningun cliente con ese ID.\n");
-    		}
-    	}
-    }
-    return retorno;
-}
-
-
-
 int com_PagarCompra(sCompraBarbijo*list,int longitud,int idCompra){
 	int retorno=ERROR_PARAM;
 	int i;
@@ -212,30 +181,4 @@ int com_PagarCompra(sCompraBarbijo*list,int longitud,int idCompra){
 		}
 	}
 	return retorno;
-}
-
-int com_ordenarPorSTRINGCHAR(sCompraBarbijo* list, int len){
-	int flagSwap;
-	int retorno=ERROR_PARAM;
-    sCompraBarbijo auxiliarEntidad;
-    int i=0;
-    if(list!=NULL&&len>0){
-    	retorno=OK;
-		do{
-			flagSwap=0;
-			for(;i<len-1;i++){
-				if(list[i].isEmpty==TRUE||list[i+1].isEmpty==TRUE){
-					continue;
-				}
-				if(strncmp(list[i].color,list[i+1].color,COL_LEN)>0){
-					flagSwap=1;
-					auxiliarEntidad=list[i];
-					list[i]=list[i+1];
-					list[i+1]=auxiliarEntidad;
-				}
-			}
-			len--;
-		}while(flagSwap);
-    }
-    return retorno;
 }
