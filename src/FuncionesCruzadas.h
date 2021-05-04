@@ -20,5 +20,6 @@ int cruz_BajaDeCliente(sCliente*listClientes, int lenClientes,sCompraBarbijo*lis
 int cruz_RealizarCompra(sCompraBarbijo* listadoCompras,int lenCompras, sCliente* listadoClientes, int lenClientes);
 int cruz_AltaCompra(sCompraBarbijo* listCompras,int lenCompras,int *idCompra,int idCliente,sCliente*listClientes,int lenClientes);
 int cruz_ShowMenuModificarCompra(int*opcion,sCompraBarbijo*structBuffer,sCliente*listadoClientes, int lenClientes);
+int cruz_PagarCompra(sCliente* listadoClientes,int lenClientes,sCompraBarbijo* listadoCompras,int lenCompras);
 
 #endif /* FUNCIONESCRUZADAS_H_ */

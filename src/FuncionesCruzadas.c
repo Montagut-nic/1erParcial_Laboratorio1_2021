@@ -32,14 +32,17 @@ int cruz_BajaDeCliente(sCliente*listClientes, int lenClientes,sCompraBarbijo*lis
 		if(utn_getIntLimiteMaxOMin(&idCliente, "\nIngrese el ID del cliente a dar de baja\n", "\nError. No se ingreso un ID valido\n",3,1,0,LIM_MIN)==OK
 				&& cli_PrintById(listClientes,lenClientes,idCliente)==OK)
 		{
-			respuesta=com_bajaTotalCliente(listBarbijos,lenBarbijos,idCliente);
-			if(respuesta==TRUE){
-				cli_bajaConfirmada(listClientes,lenClientes,i);
-				printf("\nBaja de cliente realizada.\n");
-			}else{
-				printf("\nSe ha cancelado la baja del cliente.\n");
+			i=cli_SearchById(listClientes, lenClientes, idCliente);
+			if(i>=0){
+				respuesta=com_bajaTotalCliente(listBarbijos,lenBarbijos,idCliente);
+				if(respuesta==TRUE){
+					cli_bajaConfirmada(listClientes,lenClientes,i);
+					printf("\nBaja de cliente realizada.\n");
+				}else{
+					printf("\nSe ha cancelado la baja del cliente.\n");
+				}
+				retorno=OK;
 			}
-			retorno=OK;
 		}
 	}
 	return retorno;
@@ -121,7 +124,7 @@ int cruz_ShowMenuModificarCompra(int*opcion,sCompraBarbijo*structBuffer,sCliente
 						do{
 							idExiste=TRUE;
 							retorno=utn_getIntLimiteMaxOMin(&structBuffer->idCliente, "\nIngrese el nuevo ID de cliente", "\nError. No se ingreso un ID valido\n", 2,1,0,LIM_MIN);
-							if(cli_SearchById(listadoClientes, lenClientes, structBuffer->idCliente)>=0){
+							if(cli_SearchById(listadoClientes, lenClientes, structBuffer->idCliente)<0){
 								idExiste=FALSE;
 								printf("\nNo se encontro un cliente con ese ID\n");
 							}
@@ -139,6 +142,29 @@ int cruz_ShowMenuModificarCompra(int*opcion,sCompraBarbijo*structBuffer,sCliente
 				}
 			}
 		}while(*opcion!=5&&*opcion!=6);
+	}
+	return retorno;
+}
+
+int cruz_PagarCompra(sCliente* listadoClientes,int lenClientes,sCompraBarbijo* listadoCompras,int lenCompras){
+	int idCompra;
+	int idCliente;
+	int i;
+	int retorno=ERROR_PARAM;
+	if(listadoClientes!=NULL && lenClientes>0 && listadoCompras!=NULL && lenCompras>0){
+		retorno=ERROR_DATOS;
+		if(utn_getIntLimiteMaxOMin(&idCompra,"\nIngrese el ID de la venta:\n","\nError. No se ingreso un ID valido\n",2,1,0,LIM_MIN)==OK){
+			i=com_SearchById(listadoCompras, lenCompras, idCompra);
+			if(i>=0){
+				idCliente=com_SearchIdClienteByIdCompra(listadoCompras, lenCompras, idCompra);
+				i=cli_SearchById(listadoClientes, lenClientes, idCliente);
+				cli_Print(&listadoClientes[i]);
+				com_PagarCompra(listadoCompras, lenCompras, idCompra);
+				retorno=OK;
+			}else{
+				printf("\nNo se encontro una venta con ese ID.\n");
+			}
+		}
 	}
 	return retorno;
 }
