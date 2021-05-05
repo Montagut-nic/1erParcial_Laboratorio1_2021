@@ -12,6 +12,10 @@
 #include <stdlib.h>
 #include <windows.h>
 #include "FuncionesCruzadas.h"
+#include "Informes.h"
+#include "utn.h"
+#include "Compras.h"
+#include "Cliente.h"
 
 #define QTY_CLI 100
 #define QTY_COM 1000
@@ -64,6 +68,7 @@ int main(void) {
 						}
 						break;
 					case 8:
+						info_showMenuInformes(listadoDeCompras, QTY_COM, listadoDeClientes, QTY_CLI);
 						break;
 				}
 			}

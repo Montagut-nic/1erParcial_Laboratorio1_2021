@@ -21,10 +21,10 @@ typedef struct{
 	char nombre[MAX_LEN];
 	char apellido[MAX_LEN];
 	char cuit[CUIT_LEN];
-	int idRelation;
 	int isEmpty;
 	int cantDeCompras;
 	int cantDeComprasPendientes;
+	int cantDeComprasPagadas;
 } sCliente;
 
 int cli_InitializeList(sCliente* list, int len);

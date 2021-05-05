@@ -52,6 +52,7 @@ int com_SearchIdClienteByIdCompra(sCompraBarbijo* list, int len, int id){
 	int i=0;
 	int retorno=ERROR_PARAM;
 	if(list!=NULL && len>0 && id<=len && id>0){
+		retorno=ERROR_DATOS;
 		for(; i<len; i++){
 			if(list[i].idCompra==id){
 				retorno=list[i].idCliente;
@@ -147,13 +148,13 @@ int com_baja(sCompraBarbijo* list,int len,int idCompra){
 						&& respuesta==TRUE){
 					list[i].isEmpty=TRUE;
 					printf("\nCompra cancelada.\n");
+					retorno=OK;
 				}else{
 					printf("\nLa compra no se ha cancelado\n");
 				}
 			}else{
 				printf("\nError. Solo se puede cancelar una compra pendiente\n");
 			}
-			retorno=OK;
 		}
     }
     return retorno;
@@ -169,11 +170,11 @@ int com_PagarCompra(sCompraBarbijo*list,int longitud,int idCompra){
 		i=com_SearchById(list, longitud, idCompra);
 		respuesta=utn_getFloatLimiteMinOMax(&auxiliar.precio, "\nIngrese el importe pagado:\n", "\nError. No se ingreso un importe valido\n", 2, 1, 0,LIM_MIN);
 		if(respuesta==OK){
-			retorno=OK;
 			if(utn_getInt(&respuesta, "\nLa venta pasara a estar cobrada.\nDesea confirmar? [SI:1] [NO:0]\n", "\nError. No se ingreso una opcion valida.\n", 3, 0, 1)==OK
 					&& respuesta==TRUE){
 				list[i].precio=auxiliar.precio;
 				list[i].cobro=COBRADA;
+				retorno=OK;
 				printf("\nCarga de importe confirmado\n");
 			}else{
 				printf("\nCarga de importe cancelado\n");

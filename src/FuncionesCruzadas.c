@@ -37,11 +37,11 @@ int cruz_BajaDeCliente(sCliente*listClientes, int lenClientes,sCompraBarbijo*lis
 				respuesta=com_bajaTotalCliente(listBarbijos,lenBarbijos,idCliente);
 				if(respuesta==TRUE){
 					cli_bajaConfirmada(listClientes,lenClientes,i);
+					retorno=OK;
 					printf("\nBaja de cliente realizada.\n");
 				}else{
 					printf("\nSe ha cancelado la baja del cliente.\n");
 				}
-				retorno=OK;
 			}
 		}
 	}
@@ -160,8 +160,12 @@ int cruz_PagarCompra(sCliente* listadoClientes,int lenClientes,sCompraBarbijo* l
 				idCliente=com_SearchIdClienteByIdCompra(listadoCompras, lenCompras, idCompra);
 				i=cli_SearchById(listadoClientes, lenClientes, idCliente);
 				cli_Print(&listadoClientes[i]);
-				com_PagarCompra(listadoCompras, lenCompras, idCompra);
-				retorno=OK;
+				if(com_PagarCompra(listadoCompras, lenCompras, idCompra)==OK){
+					retorno=OK;
+					listadoClientes[i].cantDeComprasPagadas++;
+					listadoClientes[i].cantDeComprasPendientes--;
+				}
+
 			}else{
 				printf("\nNo se encontro una venta con ese ID.\n");
 			}
@@ -182,7 +186,10 @@ int cruz_CancelarCompra(sCompraBarbijo*listadoCompras,int lenCompras, sCliente*l
 			if(idCliente>0){
 				i=cli_SearchById(listadoClientes, lenClientes, idCliente);
 				cli_Print(&listadoClientes[i]);
-				com_baja(listadoCompras, lenCompras, idCompra);
+				if(com_baja(listadoCompras, lenCompras, idCompra)==OK){
+					listadoClientes[i].cantDeCompras--;
+					listadoClientes[i].cantDeComprasPendientes--;
+				}
 				retorno=OK;
 			}else{
 				printf("\nNo se encontro una venta con ese ID.\n");

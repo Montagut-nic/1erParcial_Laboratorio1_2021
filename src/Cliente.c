@@ -70,11 +70,8 @@ int cli_Print (sCliente* list){
 	int retorno=ERROR_PARAM;
 	if(list!=NULL&&list->isEmpty==OCUPADO){
 		retorno = OK;
-		if(list->cantDeCompras>0){
-			printf("\nID: %d -- NOMBRE: %s / APELLIDO: %s / CUIT: %s / CANTIDAD DE COMPRAS: %d\n",list->idCliente,list->nombre,list->apellido, list->cuit,list->cantDeCompras);
-		}else {
-			printf("\nID: %d -- NOMBRE: %s / APELLIDO: %s / CUIT: %s\n",list->idCliente,list->nombre,list->apellido, list->cuit);
-		}
+		printf("\nID: %d -- NOMBRE: %s / APELLIDO: %s / CUIT: %s / CANTIDAD DE COMPRAS: %d\n",list->idCliente,list->nombre,list->apellido, list->cuit,list->cantDeCompras);
+
 	}
     return retorno;
 }
@@ -142,6 +139,8 @@ int cli_alta(sCliente* list,int len,int *id){
 					auxiliarStruct.idCliente = cli_GenerateId();
 					auxiliarStruct.isEmpty=OCUPADO;
 					auxiliarStruct.cantDeCompras=0;
+					auxiliarStruct.cantDeComprasPagadas=0;
+					auxiliarStruct.cantDeComprasPendientes=0;
 					list[i]=auxiliarStruct;
 					*id=list[i].idCliente;
 				}
