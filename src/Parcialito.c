@@ -25,9 +25,6 @@ int main(void) {
 	int respuesta;
 	int opcionInt;
 	char mensaje[ARRAY_LEN];
-	int idCompra;
-	int idCliente;
-	int i;
 	if(cli_InitializeList(listadoDeClientes,QTY_CLI)==OK
 			&& com_InitializeList(listadoDeCompras,QTY_COM)==OK)
 	{
@@ -58,31 +55,15 @@ int main(void) {
 						 cruz_RealizarCompra(listadoDeCompras, QTY_COM, listadoDeClientes, QTY_CLI);
 						break;
 					case 5:
-						if(utn_getIntLimiteMaxOMin(&idCompra,"\nIngrese el ID de la venta:\n","\nError. No se ingreso un ID valido\n",2,1,0,LIM_MIN)==OK){
-							idCliente=com_SearchIdClienteByIdCompra(listadoDeCompras, QTY_COM, idCompra);
-							if(idCliente>0){
-								i=cli_SearchById(listadoDeClientes, QTY_CLI, idCliente);
-								cli_Print(&listadoDeClientes[i]);
-								com_PagarCompra(listadoDeCompras, QTY_COM, idCompra);
-							}else{
-								printf("\nNo se encontro una venta con ese ID.\n");
-							}
-						}
+						cruz_PagarCompra(listadoDeClientes, QTY_CLI, listadoDeCompras, QTY_COM);
 						break;
 					case 6:
-						if(utn_getIntLimiteMaxOMin(&idCompra,"\nIngrese el ID de la venta:\n","\nError. No se ingreso un ID valido\n",2,1,0,LIM_MIN)==OK){
-							idCliente=com_SearchIdClienteByIdCompra(listadoDeCompras, QTY_COM, idCompra);
-							if(idCliente>0){
-								i=cli_SearchById(listadoDeClientes, QTY_CLI, idCliente);
-								cli_Print(&listadoDeClientes[i]);
-								com_baja(listadoDeCompras, QTY_COM, idCompra);
-							}else{
-								printf("\nNo se encontro una venta con ese ID.\n");
-							}
-						}
+						cruz_CancelarCompra(listadoDeCompras, QTY_COM, listadoDeClientes, QTY_CLI);
 						break;
 					case 7:
-						cli_PrintList(listadoDeClientes, QTY_CLI);
+						if(cli_PrintList(listadoDeClientes, QTY_CLI)!=OK){
+							printf("\nNo hay clientes cargados para mostrar.\n");
+						}
 						break;
 					case 8:
 						break;

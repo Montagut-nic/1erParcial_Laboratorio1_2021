@@ -24,6 +24,7 @@ typedef struct{
 	int idRelation;
 	int isEmpty;
 	int cantDeCompras;
+	int cantDeComprasPendientes;
 } sCliente;
 
 int cli_InitializeList(sCliente* list, int len);

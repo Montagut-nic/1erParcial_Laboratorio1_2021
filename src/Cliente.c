@@ -83,9 +83,10 @@ int cli_PrintList(sCliente* list, int len){
 	int retorno=ERROR_PARAM;
     int i=0;
     if(list!=NULL && len>0){
-    	retorno=OK;
 		for(;i<len;i++){
-			cli_Print(&list[i]);
+			if(cli_Print(&list[i])==OK){
+				retorno=OK;
+			}
 		}
     }
     return retorno;
@@ -124,7 +125,6 @@ int cli_alta(sCliente* list,int len,int *id){
 		if(i>=0
 				&& utn_getNombre(auxiliarStruct.nombre,sizeof(auxiliarStruct.nombre),"\nIngrese su nombre:\n","\nError. No es un nombre valido\n",3)==OK
 				&& utn_getNombre(auxiliarStruct.apellido,sizeof(auxiliarStruct.apellido),"\nIngrese su apellido:\n","\nError. No es un apellido valido\n",3)==OK
-				//&& utn_getCuit(auxiliarStruct.cuit,sizeof(auxiliarStruct.cuit),"\nIngrese su cuit:\n","\nError. No es un cuit valido.\n",3)==OK
 				)
 		{
 			do{

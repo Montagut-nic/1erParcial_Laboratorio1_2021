@@ -18,7 +18,7 @@
 #define ERROR_DATOS -2
 #define TRUE 1
 #define FALSE 0
-#define CUIT_LEN 14
+#define CUIT_LEN 13
 #define LIM_MAX 1
 #define LIM_MIN -1
 

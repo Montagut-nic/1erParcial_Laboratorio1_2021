@@ -350,7 +350,7 @@ int esCuit(char array[],int longitud){
 	int contadorGuiones=0;
 	if(array!=NULL){
 		retorno=FALSE;
-		if(strnlen(array,longitud)<=CUIT_LEN){
+		if(strnlen(array,longitud)==CUIT_LEN){
 			retorno=TRUE;
 			for (i=0;array[i]!='\0';i++){
 				if(array[i]=='-'){
@@ -362,6 +362,9 @@ int esCuit(char array[],int longitud){
 					retorno=FALSE;
 					break;
 				}
+			}
+			if(contadorGuiones<2){
+				retorno=FALSE;
 			}
 		}
 	}
