@@ -182,3 +182,34 @@ int com_PagarCompra(sCompraBarbijo*list,int longitud,int idCompra){
 	}
 	return retorno;
 }
+
+int com_searchPrimerColor(sCompraBarbijo* list, int lenList, char color[], int lenColor){
+	int retorno = ERROR_PARAM;
+	int i=0;
+	if(list!=NULL && lenList>0&&color!=NULL&&lenColor>0){
+		retorno=ERROR_DATOS;
+		for (;i<lenList;i++){
+			if (list[i].isEmpty==FALSE){
+				retorno=i;
+				strncpy(color,list[i].color,lenColor);
+				break;
+			}
+		}
+	}
+	return retorno;
+}
+
+int com_buscadorColores(sCompraBarbijo* listBarbijosAux,int lenLista,char color[],int lenColor){
+	int i=0;
+	int retorno=ERROR_PARAM;
+	if(listBarbijosAux!=NULL&&lenLista>0&&color!=NULL&&lenColor>0){
+		for(;i<lenLista;i++){
+			if(listBarbijosAux[i].isEmpty==FALSE&&strncmp(listBarbijosAux[i].color,color,lenColor)==0){
+				retorno=OK;
+				listBarbijosAux[i].isEmpty=TRUE;
+				break;
+			}
+		}
+	}
+	return retorno;
+}

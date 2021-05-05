@@ -36,5 +36,7 @@ int com_GenerateId();
 int com_bajaTotalCliente(sCompraBarbijo* list,int len,int id);
 int com_baja(sCompraBarbijo* list,int len,int idCompra);
 int com_PagarCompra(sCompraBarbijo*list,int longitud,int idCompra);
+int com_searchPrimerColor(sCompraBarbijo* list, int lenList, char*color, int lenColor);
+int com_buscadorColores(sCompraBarbijo* listBarbijosAux,int lenLista,char color[],int lenColor);
 
 #endif /* COMPRAS_H_ */

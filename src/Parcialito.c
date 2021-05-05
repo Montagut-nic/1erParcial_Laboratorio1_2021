@@ -11,8 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
-#include "Cliente.h"
-#include "Compras.h"
 #include "FuncionesCruzadas.h"
 
 #define QTY_CLI 100

@@ -1,0 +1,129 @@
+/*
+ * Informes.c
+ *
+ *  Created on: 4 may. 2021
+ *      Author: Montagut
+ */
+
+#include "Informes.h"
+
+int info_showMenuInformes(sCompraBarbijo*listCompraBarbijos,int lenListaCompras){
+	int opcionInt;
+	char mensaje[ARRAY_LEN];
+	int retorno=ERROR_PARAM;
+	if(listCompraBarbijos!=NULL&&lenListaCompras>0){
+		retorno=ERROR_DATOS;
+		do{
+			snprintf(mensaje,ARRAY_LEN,"\nSeleccione alguna de las siguientes opciones:\n\n"
+										"1) Color de barbijo que se compro mas veces\n"
+										"2) Cantidad de compras pendientes\n"
+										"3) Compra con precio por unidad mas bajo\n"
+										"4) Cliente con mas compras pagadas\n"
+										"5) Cliente con más compras pendientes\n"
+										"6) Lista de compras pendientes de pago con información de la compra y del cliente\n"
+										"7) Salir\n");
+			if(utn_getInt(&opcionInt,mensaje, "\nError. No se ingreso una opcion valida\n",3,1,7)==OK){
+				retorno=OK;
+				switch(opcionInt){
+					case 1:
+						if(info_showColorQueSeComproMasVeces(listCompraBarbijos,lenListaCompras)!=OK){
+							printf("\nNo se han realizado compras todavia.\n");
+						}
+						break;
+					case 2:
+						info_CantidadDeComprasPendientes(listCompraBarbijos, lenListaCompras);
+						break;
+					case 3:
+						break;
+					case 4:
+						break;
+					case 5:
+						break;
+					case 6:
+						break;
+				}
+
+			}
+		}while(opcionInt!=7);
+	}
+	return retorno;
+}
+
+int info_showColorQueSeComproMasVeces(sCompraBarbijo*listCompraBarbijo,int lenListCompras){
+	int retorno=ERROR_PARAM;
+	sCompraBarbijo listaAuxiliar[sizeof(listCompraBarbijo)];
+	char colorMasComprado[COL_LEN];
+	char colorAux[COL_LEN];
+	int contadorAparicionesColor;
+	int aparicionesColorMasComprado=0;
+	int i;
+	if(listCompraBarbijo!=NULL&&lenListCompras>0){
+		retorno=ERROR_DATOS;
+		*listaAuxiliar=*listCompraBarbijo;
+		while(com_searchPrimerColor(listaAuxiliar, lenListCompras, colorAux, sizeof(colorAux))==OK){
+			contadorAparicionesColor=0;
+			for(i=0;i<lenListCompras;i++){
+				if( com_buscadorColores(listaAuxiliar, lenListCompras, colorAux, sizeof(colorAux))==OK){
+					contadorAparicionesColor++;
+				}
+			}
+			if(contadorAparicionesColor>aparicionesColorMasComprado){
+				aparicionesColorMasComprado=contadorAparicionesColor;
+				strncpy(colorMasComprado,colorAux,sizeof(colorMasComprado));
+			}
+		}
+		if(aparicionesColorMasComprado>0){
+			retorno=OK;
+			printf("\nEl color mas comprado fue %s\n",colorMasComprado);
+		}
+	}
+	return retorno;
+}
+
+int info_CantidadDeComprasPendientes(sCompraBarbijo*listCompraBarbijo,int lenListCompras){
+	int contadorPendientes=0;
+	int retorno=ERROR_PARAM;
+	if(listCompraBarbijo!=NULL&&lenListCompras>0){
+		retorno=ERROR_DATOS;
+		for(int i=0;i<lenListCompras;i++){
+			if(listCompraBarbijo[i].isEmpty==FALSE && listCompraBarbijo[i].cobro==PENDIENTE ){
+				contadorPendientes++;
+			}
+		}
+		if(contadorPendientes>0){
+			retorno=OK;
+			printf("\nLa cantidad de compras pendientes es: %d\n",contadorPendientes);
+		}else{
+			printf("\nNo hay compras pendientes\n");
+		}
+	}
+	return retorno;
+}
+
+int info_CompraConPrecioPorUnidadMasBajo(sCompraBarbijo*listCompraBarbijo,int lenListCompras){
+	int retorno=ERROR_PARAM;
+	float precioPorUnidad;
+	float precioPorUnidadMasBajo=0;
+	sCompraBarbijo compraConPrecioPorUnidadMasBajo;
+	if(listCompraBarbijo!=NULL&&lenListCompras>0){
+		retorno=ERROR_DATOS;
+		for(int i=0;i<lenListCompras;i++){
+			if(listCompraBarbijo[i].isEmpty==FALSE){
+				precioPorUnidad=listCompraBarbijo[i].precio/listCompraBarbijo[i].cantBrabijos;
+				if(precioPorUnidad>precioPorUnidadMasBajo){
+					compraConPrecioPorUnidadMasBajo=listCompraBarbijo[i];
+					precioPorUnidadMasBajo=precioPorUnidad;
+				}
+			}
+		}
+		if(precioPorUnidadMasBajo>0){
+			retorno=OK;
+			printf("\nLa compra con el precio por unidad mas bajo es:\n");
+			com_Print(&compraConPrecioPorUnidadMasBajo);
+			printf("\nCuyo precio por unidad es: %.2f\n",precioPorUnidadMasBajo);
+		}else{
+			printf("\nNo se han realizado compras\n");
+		}
+	}
+	return retorno;
+}
