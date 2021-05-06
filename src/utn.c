@@ -378,19 +378,20 @@ int esNombre(char array[]){
 		retorno=TRUE;
 		for (i=0;array[i]!='\0';i++){
 			if((array[i]>'Z'||array[i]<'A')
-				&&(array[i]>'z'||array[i]<'a')//array[i]>122||array[i]<97
-				&&(array[i]>'Ü'||array[i]<'Ç')//array[i]>154||array[i]<128
-				&&(array[i]>'Ñ'||array[i]<'á')//array[i]>165||array[i]<160
-				&&(array[i]>'À'||array[i]<'Á')//array[i]>183||array[i]<181
-				&&(array[i]>'Ã'||array[i]<'ã')//array[i]>199||array[i]<198
-				&&(array[i]>'È'||array[i]<'Ê')//array[i]>212||array[i]<210
-				&&(array[i]>'Ï'||array[i]<'Í')//array[i]>216||array[i]<214
-				&&(array[i]>'İ'||array[i]<'Ó')//array[i]>237||array[i]<224
-				&&array[i]!='Ì'//222
-				&&array[i]!=' '//32
-				&&array[i]!=39)//'(comilla simple)
+				&&(array[i]>'z'||array[i]<'a') //array[i]>122||array[i]<97
+			/*  &&(array[i]>'Ü'||array[i]<'Ç') //array[i]>154Ü||array[i]<128Ç
+				&&(array[i]>'Ñ'||array[i]<'á') //array[i]>165Ñ||array[i]<160á
+				&&(array[i]>'À'||array[i]<'Á') //array[i]>183À||array[i]<181Á
+				&&(array[i]>'Ã'||array[i]<'ã') //array[i]>199Ã||array[i]<198ã
+				&&(array[i]>'È'||array[i]<'Ê') //array[i]>212||array[i]<210
+				&&(array[i]>'Ï'||array[i]<'Í') //array[i]>216||array[i]<214
+				&&(array[i]>'İ'||array[i]<'Ó') //array[i]>237||array[i]<224
+				&&array[i]!='Ì' //222  removidos por generar problemas, revisar mas tarde*/
+				&&array[i]!=' ' //32
+				&&array[i]!=39) //'(comilla simple)
 			{
 				retorno=FALSE;
+				printf("\nA menos que sea pariente de Elon Musk, esta mal\n");
 				break;
 			}
 
