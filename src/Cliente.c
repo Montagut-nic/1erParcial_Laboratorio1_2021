@@ -32,6 +32,9 @@ int cli_SearchEmpty (sCliente* list, int len){
 				break;
 			}
 		}
+		if(retorno<0){
+			printf("\nNo hay espacios libres en el listado de clientes\n");
+		}
 	}
     return retorno;
 }

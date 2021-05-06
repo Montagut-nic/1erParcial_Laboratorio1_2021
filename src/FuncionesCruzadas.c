@@ -49,56 +49,61 @@ int cruz_BajaDeCliente(sCliente*listClientes, int lenClientes,sCompraBarbijo*lis
 }
 
 int cruz_RealizarCompra(sCompraBarbijo* listadoCompras,int lenCompras, sCliente* listadoClientes, int lenClientes){
-	int idCliente;
 	int idCompra;
 	int i;
+	int j;
 	int retorno=ERROR_PARAM;
 	if(listadoCompras!=NULL && listadoClientes!=NULL && lenClientes>0 && lenCompras>0){
 		retorno=ERROR_DATOS;
-		if(utn_getIntLimiteMaxOMin(&idCliente, "\nIngrese el ID de cliente:\n", "\nError. No se ingreso un ID valido\n",3,1,0,LIM_MIN)==OK
-				&&cli_SearchById(listadoClientes, lenClientes, idCliente)>0)
-		{
-			if(cruz_AltaCompra(listadoCompras, lenCompras, &idCompra,idCliente,listadoClientes,lenClientes)==OK){
-				retorno=OK;
-				i=com_SearchById(listadoCompras, lenCompras, idCompra);
-				printf("\nSu ID de compra es: %d\n",listadoCompras[i].idCompra);
-				system("pause");
-				i=cli_SearchById(listadoClientes, lenClientes, idCliente);
-				listadoClientes[i].cantDeCompras++;
-				listadoClientes[i].cantDeComprasPendientes++;
-			}
-		}else{
-			printf("\nNo se encontro un cliente con ese ID.\n");
+		if(cruz_AltaCompra(listadoCompras, lenCompras, &idCompra,listadoClientes,lenClientes)==OK){
+			retorno=OK;
+			i=com_SearchById(listadoCompras, lenCompras, idCompra);
+			printf("\nSu ID de compra es: %d\n",listadoCompras[i].idCompra);
+			system("pause");
+			j=cli_SearchById(listadoClientes, lenClientes, listadoCompras[i].idCliente);
+			listadoClientes[j].cantDeCompras++;
+			listadoClientes[j].cantDeComprasPendientes++;
 		}
+
 	}
 	return retorno;
 }
 
-int cruz_AltaCompra(sCompraBarbijo* listCompras,int lenCompras,int *idCompra,int idCliente,sCliente*listClientes,int lenClientes){
+int cruz_AltaCompra(sCompraBarbijo* listCompras,int lenCompras,int *idCompra,sCliente*listClientes,int lenClientes){
     int retorno = ERROR_PARAM;
     int i;
     sCompraBarbijo auxiliarStruct;
     int opcion;
     int respuesta;
+    int idCliente;
     if (listCompras!=NULL && lenCompras>0&&idCompra!=NULL&&listClientes!=NULL&&lenClientes>0){
     	retorno=ERROR_DATOS;
 		i = com_SearchEmpty(listCompras, lenCompras);
-		if(i>=0
-				&& utn_getIntLimiteMaxOMin(&auxiliarStruct.cantBrabijos, "\nIngrese la cantidad de barbijos a comprar:\n", "\nError. No se ingreso una cantidad valida.\n",3,1,0,LIM_MIN)==OK
-				&& utn_getDireccion(auxiliarStruct.direccion, sizeof(auxiliarStruct.direccion), "\nIngrese la direccion de entrega:\n", "\nError. No se ingreso una direccion valida.\n", 3)==OK
-				&& utn_getString(auxiliarStruct.color, sizeof(auxiliarStruct.color), "\nIngrese el color de los barbijos:\n", "\nError. No se ingreso un color valido\n", 3)==OK
-				)
+		if(i>=0)
 		{
-			auxiliarStruct.idCliente=idCliente;
-			respuesta=cruz_ShowMenuModificarCompra(&opcion, &auxiliarStruct,listClientes,lenClientes);
-			if(respuesta==OK&&opcion==5){
-				retorno=OK;
-				auxiliarStruct.idCompra = com_GenerateId();
-				auxiliarStruct.isEmpty=FALSE;
-				auxiliarStruct.cobro=PENDIENTE;
-				listCompras[i]=auxiliarStruct;
-				*idCompra=listCompras[i].idCompra;
+			if(utn_getIntLimiteMaxOMin(&idCliente, "\nIngrese el ID de cliente:\n", "\nError. No se ingreso un ID valido\n",3,1,0,LIM_MIN)==OK
+					&&cli_SearchById(listClientes, lenClientes, idCliente)>=0)
+			{
+				if( utn_getIntLimiteMaxOMin(&auxiliarStruct.cantBrabijos, "\nIngrese la cantidad de barbijos a comprar:\n", "\nError. No se ingreso una cantidad valida.\n",3,1,0,LIM_MIN)==OK
+						&& utn_getDireccion(auxiliarStruct.direccion, sizeof(auxiliarStruct.direccion), "\nIngrese la direccion de entrega:\n", "\nError. No se ingreso una direccion valida.\n", 3)==OK
+						&& utn_getString(auxiliarStruct.color, sizeof(auxiliarStruct.color), "\nIngrese el color de los barbijos:\n", "\nError. No se ingreso un color valido\n", 3)==OK)
+				{
+					auxiliarStruct.idCliente=idCliente;
+					respuesta=cruz_ShowMenuModificarCompra(&opcion, &auxiliarStruct,listClientes,lenClientes);
+					if(respuesta==OK&&opcion==5){
+						retorno=OK;
+						auxiliarStruct.idCompra = com_GenerateId();
+						auxiliarStruct.isEmpty=FALSE;
+						auxiliarStruct.cobro=PENDIENTE;
+						listCompras[i]=auxiliarStruct;
+						*idCompra=listCompras[i].idCompra;
+					}
+				}
+			}else{
+				printf("\nNo se encontro un cliente con ese ID\n");
 			}
+		}else{
+			printf("\nNo hay espacios libres en el listado de compras\n");
 		}
     }
     return retorno;

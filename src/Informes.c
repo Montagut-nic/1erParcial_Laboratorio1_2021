@@ -37,20 +37,23 @@ int info_showMenuInformes(sCompraBarbijo*listCompraBarbijos,int lenListaCompras,
 						break;
 					case 3:
 						if(info_CompraConPrecioPorUnidadMasBajo(listCompraBarbijos, lenListaCompras)!=OK){
-							printf("\nNo se han realizado compras todavia.\n");
+							printf("\nNo se han pagado compras todavia.\n");
 						}
 						break;
 					case 4:
 						if(info_ClienteConMasCompras(COBRADA,listClientes,lenClientes)!=OK){
-							printf("\nNo hay clientes con compras pagadas todavia.\n");
+							printf("\nNo hay clientes con compras pagadas.\n");
 						}
 						break;
 					case 5:
 						if(info_ClienteConMasCompras(PENDIENTE,listClientes,lenClientes)!=OK){
-							printf("\nNo hay clientes con compras pendientes todavia.\n");
+							printf("\nNo hay clientes con compras pendientes.\n");
 						}
 						break;
 					case 6:
+						if(info_PrintComprasPendientesYCliente(listCompraBarbijos,lenListaCompras,listClientes,lenClientes)!=OK){
+							printf("\nNo hay compras pendientes.\n");
+						}
 						break;
 				}
 
@@ -169,6 +172,24 @@ int info_ClienteConMasCompras(int pendientesOPagadas, sCliente*listadoClientes, 
 			cli_Print(&clienteMasCompras);
 			printf("\nCon %d compras pendientes\n",clienteMasCompras.cantDeComprasPendientes);
 			retorno=OK;
+		}
+	}
+	return retorno;
+}
+
+int info_PrintComprasPendientesYCliente(sCompraBarbijo*listadoCompras,int lenCompras,sCliente*listadoClientes,int lenClientes){
+	int retorno=ERROR_PARAM;
+	int i=0;
+	int j;
+	if(listadoCompras!=NULL&&lenCompras>0&&listadoClientes!=NULL&&lenClientes>0){
+		retorno=ERROR_DATOS;
+		for(;i<lenCompras;i++){
+			if(listadoCompras[i].isEmpty==FALSE&&listadoCompras[i].cobro==PENDIENTE){
+				com_Print(&listadoCompras[i]);
+				j=cli_SearchById(listadoClientes,lenClientes,listadoCompras[i].idCliente);
+				cli_Print(&listadoClientes[j]);
+				retorno=OK;
+			}
 		}
 	}
 	return retorno;

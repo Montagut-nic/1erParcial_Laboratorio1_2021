@@ -28,5 +28,6 @@ int info_CantidadDeComprasPendientes(sCompraBarbijo*listCompraBarbijo,int lenLis
 int info_CompraConPrecioPorUnidadMasBajo(sCompraBarbijo*listCompraBarbijo,int lenListCompras);
 int info_ClienteConMasCompras(int pendientesOPagadas, sCliente*listadoClientes, int lenClientes);
 int info_showMenuInformes(sCompraBarbijo*listCompraBarbijos,int lenListaCompras,sCliente*listClientes,int lenClientes);
+int info_PrintComprasPendientesYCliente(sCompraBarbijo*listadoCompras,int lenCompras,sCliente*listadoClientes,int lenClientes);
 
 #endif /* INFORMES_H_ */
