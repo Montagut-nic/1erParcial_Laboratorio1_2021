@@ -378,9 +378,18 @@ int esNombre(char array[]){
 		retorno=TRUE;
 		for (i=0;array[i]!='\0';i++){
 			if((array[i]>'Z'||array[i]<'A')
-				&&(array[i]>'z'||array[i]<'a')
-				&&array[i]!=' '
-				&&array[i]!=39){
+				&&(array[i]>'z'||array[i]<'a')//array[i]>122||array[i]<97
+				&&(array[i]>'Ü'||array[i]<'Ç')//array[i]>154||array[i]<128
+				&&(array[i]>'Ñ'||array[i]<'á')//array[i]>165||array[i]<160
+				&&(array[i]>'À'||array[i]<'Á')//array[i]>183||array[i]<181
+				&&(array[i]>'Ã'||array[i]<'ã')//array[i]>199||array[i]<198
+				&&(array[i]>'È'||array[i]<'Ê')//array[i]>212||array[i]<210
+				&&(array[i]>'Ï'||array[i]<'Í')//array[i]>216||array[i]<214
+				&&(array[i]>'İ'||array[i]<'Ó')//array[i]>237||array[i]<224
+				&&array[i]!='Ì'//222
+				&&array[i]!=' '//32
+				&&array[i]!=39)//'(comilla simple)
+			{
 				retorno=FALSE;
 				break;
 			}

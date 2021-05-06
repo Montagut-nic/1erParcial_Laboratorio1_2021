@@ -143,7 +143,7 @@ int com_baja(sCompraBarbijo* list,int len,int idCompra){
     	retorno=ERROR_DATOS;
     	i=com_SearchById(list,len,idCompra);
 		if(i>=0&&list[i].isEmpty==FALSE){
-			if(list[i].cobro==COBRADA){
+			if(list[i].cobro==PENDIENTE){
 				if(utn_getInt(&respuesta, "\nSeguro desea cancelar la compra?\n[SI:1] [NO:0]\n", "\nError. No se ingreso una opcion valida.\n",2,0,1)==OK
 						&& respuesta==TRUE){
 					list[i].isEmpty=TRUE;
