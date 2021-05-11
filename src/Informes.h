@@ -13,21 +13,11 @@
 #include "utn.h"
 #include "FuncionesCruzadas.h"
 
-typedef struct{
-	int cantDeBarbijoMasComprado;
-	char colorDeBarbijoMasComprado[COL_LEN];
-	int cantComprasPendientes;
-	int idCompraConPromedioDePrecioMasBajo;
-	int idClienteMasComprasPagadas;
-	int idClienteMasComprasPendientes;
-	int isEmpty;
-} sInforme;
-
+int info_showMenuInformes(sCompraBarbijo*listCompraBarbijos,int lenCompras,sCliente*arrayPunterosCliente[],int lenClientes);
 int info_showColorQueSeComproMasVeces(sCompraBarbijo*listCompraBarbijo,int lenListCompras);
 int info_CantidadDeComprasPendientes(sCompraBarbijo*listCompraBarbijo,int lenListCompras);
 int info_CompraConPrecioPorUnidadMasBajo(sCompraBarbijo*listCompraBarbijo,int lenListCompras);
-int info_ClienteConMasCompras(int pendientesOPagadas, sCliente*listadoClientes, int lenClientes);
-int info_showMenuInformes(sCompraBarbijo*listCompraBarbijos,int lenListaCompras,sCliente*listClientes,int lenClientes);
-int info_PrintComprasPendientesYCliente(sCompraBarbijo*listadoCompras,int lenCompras,sCliente*listadoClientes,int lenClientes);
+int info_ClienteConMasCompras(int pendientesOPagadas,sCliente*arrayPunterosCliente[],int lenClientes);
+int info_PrintComprasPendientesConCliente(sCompraBarbijo*listadoCompras,int lenCompras,sCliente*arrayPunterosCliente[],int lenClientes);
 
 #endif /* INFORMES_H_ */

@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ARRAY_LEN 4096
+#define ARRAY_LEN 2048
 #define OK 0
 #define ERROR_PARAM -1
 #define ERROR_DATOS -2
